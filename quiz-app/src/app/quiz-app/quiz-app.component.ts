@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './quiz-app.component.css'
 })
 
-export class QuizAppComponent implements OnInit, OnDestroy, AfterViewInit {
+export class QuizAppComponent implements OnInit, OnDestroy {
   apiUrl = 'https://mocki.io/v1/491a07e5-507c-4706-8196-4fa9497b7ab5';
   questions: any[] = [];
   currentQuestionIndex: number = 0;
@@ -21,7 +21,7 @@ export class QuizAppComponent implements OnInit, OnDestroy, AfterViewInit {
   correctAnswers: boolean[] = [];
   quizCompleted: boolean = false;
   selectedAnswers: { [key: number]: any } = {};
-
+  quizStarted:boolean=false
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -34,12 +34,12 @@ export class QuizAppComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  ngAfterViewInit(): void {
-    if (this.questions.length > 0) {
-      this.startTimer();
-    }
-  }
 
+  startQuiz() {
+    this.quizStarted = true;
+    this.startTimer();
+  }
+  
   startTimer() {
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();

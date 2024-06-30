@@ -1,47 +1,56 @@
-<div class="quiz-container" *ngIf="questions.length > 0">
-  <div *ngIf="!quizCompleted">
-    <h2>{{currentQuestionIndex + 1}}. {{ questions[currentQuestionIndex].question }}</h2>
-    <div class="timer">Time Left: {{ timeLeft }} seconds</div>
 
-    <div *ngIf="questions[currentQuestionIndex].type === 'radio'" class="options-container">
-      <div *ngFor="let option of questions[currentQuestionIndex].options" class="option">
-        <label class="radio-label">
-          <input type="radio" name="answer" [value]="option" (change)="selectAnswer('radio', option)">
-          {{ option }}
-        </label>
+<div class="quiz-container">
+  <div *ngIf="!quizStarted">
+      <div class="start-screen">
+        <h1>Welcome to the Quiz</h1>
+        <button class="nav-button" (click)="startQuiz()">Start Quiz</button>
       </div>
-    </div>
-
-    <div *ngIf="questions[currentQuestionIndex].type === 'checkbox'" class="options-container">
-      <div *ngFor="let option of questions[currentQuestionIndex].options" class="option">
-        <label class="checkbox-label">
-          <input type="checkbox" [checked]="option === selectedAnswers[currentQuestionIndex]" [value]="option" (change)="selectAnswer('checkbox', option)">
-          {{ option }}
-        </label>
-      </div>
-    </div>
-
-    <div *ngIf="questions[currentQuestionIndex].type === 'dropdown'" class="options-container">
-      <select class="dropdown" (change)="selectAnswer('dropdown', $event)">
-        <option value="" disabled selected>Select Answer</option>
-        <option *ngFor="let option of questions[currentQuestionIndex].options" [value]="option">{{ option }}</option>
-      </select>
-    </div>
-
-    <div class="navigation-buttons">
-      <button *ngIf="currentQuestionIndex < questions.length - 1" class="nav-button" (click)="NextQuestion()">Next</button>
-      <button *ngIf="currentQuestionIndex === questions.length - 1" class="nav-submit" (click)="submit()">Submit</button>
-    </div>
   </div>
+  <div  *ngIf="quizStarted && questions.length > 0">
+      <div *ngIf="!quizCompleted">
+        <h2>{{currentQuestionIndex + 1}}. {{ questions[currentQuestionIndex].question }}</h2>
+        <div class="timer">Time Left: {{ timeLeft }} seconds</div>
 
-  <div *ngIf="quizCompleted" class="result-section">
-    <h2>Quiz Completed!</h2>
-    <div *ngFor="let data of questions; let i = index" class="result-question">
-      <p>{{i+1}} - {{ data.question }}</p>
-      <p>Your answer: {{ selectedAnswers[i] }}</p>
-      <p *ngIf="correctAnswers[i]" class="correct">Correct!</p>
-      <p *ngIf="!correctAnswers[i]" class="incorrect">Incorrect!</p>
-      <p *ngIf="!correctAnswers[i]">Correct answer: {{ data.correctAnswer }}</p>
-    </div>
+        <div *ngIf="questions[currentQuestionIndex].type === 'radio'" class="options-container">
+          <div *ngFor="let option of questions[currentQuestionIndex].options" class="option">
+            <label class="radio-label">
+              <input type="radio" name="answer" [value]="option" (change)="selectAnswer('radio', option)">
+              {{ option }}
+            </label>
+          </div>
+        </div>
+
+        <div *ngIf="questions[currentQuestionIndex].type === 'checkbox'" class="options-container">
+          <div *ngFor="let option of questions[currentQuestionIndex].options" class="option">
+            <label class="checkbox-label">
+              <input type="checkbox" [checked]="option === selectedAnswers[currentQuestionIndex]" [value]="option" (change)="selectAnswer('checkbox', option)">
+              {{ option }}
+            </label>
+          </div>
+        </div>
+
+        <div *ngIf="questions[currentQuestionIndex].type === 'dropdown'" class="options-container">
+          <select class="dropdown" (change)="selectAnswer('dropdown', $event)">
+            <option value="" disabled selected>Select Answer</option>
+            <option *ngFor="let option of questions[currentQuestionIndex].options" [value]="option">{{ option }}</option>
+          </select>
+        </div>
+
+        <div class="navigation-buttons">
+          <button *ngIf="currentQuestionIndex < questions.length - 1" class="nav-button" (click)="NextQuestion()">Next</button>
+          <button *ngIf="currentQuestionIndex === questions.length - 1" class="nav-submit" (click)="submit()">Submit</button>
+        </div>
+      </div>
+
+      <div *ngIf="quizCompleted" class="result-section">
+          <h2>Quiz Completed!</h2>
+          <div *ngFor="let data of questions; let i = index" class="result-question">
+            <p>{{i+1}} - {{ data.question }}</p>
+            <p>Your answer: {{ selectedAnswers[i] }}</p>
+            <p *ngIf="correctAnswers[i]" class="correct">Correct!</p>
+            <p *ngIf="!correctAnswers[i]" class="incorrect">Incorrect!</p>
+            <p *ngIf="!correctAnswers[i]">Correct answer: {{ data.correctAnswer }}</p>
+          </div>
+      </div>
   </div>
 </div>
